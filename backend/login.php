@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['prenom'] = $user['prenom'];
                 $_SESSION['nom'] = $user['nom'];
                 $_SESSION['role'] = $user['role'];
-                header('Location: ../dashboard/dashboard.html'); // Redirect to dashboard or home page
+                header('Location: ../dashboard/dashboard_etudiant.html'); // Redirect to dashboard or home page
                 exit();
             } else {
                 echo "Mot de passe incorrect.";

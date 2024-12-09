@@ -1,11 +1,22 @@
 <?php
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
+    header('Location: ../login/login.php');
     exit();
 }
 
-echo "Bienvenue, " . $_SESSION['prenom'] . " " . $_SESSION['nom'] . "<br>";
-echo "Votre rôle : " . $_SESSION['role'] . "<br>";
-echo "<a href='logout.php'>Déconnexion</a>";
-?>
+
+
+// Get user data from the session
+$response = [
+    'prenom' => $_SESSION['prenom'],
+    'nom' => $_SESSION['nom'],
+    'role' => $_SESSION['role']
+];
+
+// Return data as JSON
+header('Content-Type: application/json');
+echo json_encode($response);
+
+
+
