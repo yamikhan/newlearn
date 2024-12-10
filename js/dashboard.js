@@ -13,7 +13,6 @@ fetch('../backend/dashboard.php')
         } else {
           // Populate the dashboard with user data
           document.getElementById('user-name').textContent = `${data.prenom} ${data.nom}`;
-          document.getElementById('user-role').textContent = data.role;
         }
       })
       .catch(error => {

@@ -20,12 +20,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $user = $result->fetch_assoc();
             // Verify password
             if (password_verify($password, $user['password'])) {
-                // Password is correct, start session
+                // Password is correct, set session variables
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['prenom'] = $user['prenom'];
                 $_SESSION['nom'] = $user['nom'];
                 $_SESSION['role'] = $user['role'];
-                header('Location: ../dashboard/dashboard_etudiant.html'); // Redirect to dashboard or home page
+
+                // Redirect based on role
+                if ($user['role'] === 'professeur') {
+                    header('Location: ../dashboard/dashboard_teacher.html');
+                } elseif ($user['role'] === 'étudiant') {
+                    header('Location: ../dashboard/dashboard_etudiant.html');
+                } else {
+                    echo "Rôle inconnu.";
+                }
                 exit();
             } else {
                 echo "Mot de passe incorrect.";

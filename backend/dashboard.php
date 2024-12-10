@@ -10,8 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 // Get user data from the session
 $response = [
     'prenom' => $_SESSION['prenom'],
-    'nom' => $_SESSION['nom'],
-    'role' => $_SESSION['role']
+    'nom' => $_SESSION['nom']
 ];
 
 // Return data as JSON
