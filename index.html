@@ -13,11 +13,12 @@
         <nav>
             <div class="logo">ProLearn</div>
             <span class="hamburger" onclick="toggleMenu()">☰</span>
-            <ul>
+            <ul id="navLinks">
                 <li><a href="#home" onclick="showSection('home')"><i class="fas fa-home"></i> Home</a></li>
                 <li><a href="/pages/showallcourses.html" onclick="showSection('courses')"><i class="fas fa-book"></i> Courses</a></li>
-                <li><a href="login/login.html" onclick="showSection('login')"><i class="fas fa-sign-in-alt"></i> Login</a></li>
-                <li><a href="register/register.html" onclick="showSection('signup')"><i class="fas fa-user-plus"></i> Signup</a></li>
+                <li id="loginButton"><a href="login/login.html" onclick="showSection('login')"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                <li id="signupButton"><a href="register/register.html" onclick="showSection('signup')"><i class="fas fa-user-plus"></i> Signup</a></li>
+                <li id="dashboardButton" style="display: none;"><a href="dashboard.html" onclick="showSection('dashboard')"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
                 <li><a href="#feedback" onclick="showSection('feedback')"><i class="fas fa-comment-dots"></i> Feedback</a></li>
                 <li><a href="#contact" onclick="showSection('contact')"><i class="fas fa-envelope"></i> Contact</a></li>
             </ul>
@@ -31,7 +32,6 @@
             <p>Learn and practice your skills with us.</p>
             <a href="/register/register.html" class="get-started" onclick="showSection('signup')">Get Started</a>
         </section>
-
 
         <!-- Feedback Section -->
         <section id="feedback" class="feedback visible">
@@ -89,5 +89,38 @@
     </footer>
 
     <script src="js/script.js"></script>
+    <script>
+        // Function to check login status and user role
+        function checkLoginStatus() {
+            fetch('../backend/check_login_status.php') // This file checks login status from the session
+                .then(response => response.json())
+                .then(data => {
+                    if (data.logged_in) {
+                        // Hide login and signup, show dashboard
+                        document.getElementById('loginButton').style.display = 'none';
+                        document.getElementById('signupButton').style.display = 'none';
+
+                        // Show the correct dashboard based on role
+                        const dashboardButton = document.getElementById('dashboardButton');
+                        if (data.role === 'étudiant') {
+                            dashboardButton.style.display = 'inline-block';
+                            dashboardButton.querySelector('a').href = '../dashboard/dashboard_etudiant.html'; // Link to student dashboard
+                        } else if (data.role === 'professeur') {
+                            dashboardButton.style.display = 'inline-block';
+                            dashboardButton.querySelector('a').href = '../dashboard/dashboard_teacher.html'; // Link to teacher dashboard
+                        }
+                    } else {
+                        // Show login and signup, hide dashboard
+                        document.getElementById('loginButton').style.display = 'inline-block';
+                        document.getElementById('signupButton').style.display = 'inline-block';
+                        document.getElementById('dashboardButton').style.display = 'none';
+                    }
+                })
+                .catch(error => console.error('Error checking login status:', error));
+        }
+
+        // Run the checkLoginStatus function on page load
+        window.onload = checkLoginStatus;
+    </script>
 </body>
 </html>

@@ -1,10 +1,17 @@
 <?php
 session_start();
-header('Content-Type: application/json');
 
+// Check if the user is logged in
 if (isset($_SESSION['user_id'])) {
-    echo json_encode(['logged_in' => true]);
+    // If logged in, return the user data (role, logged_in status)
+    echo json_encode([
+        'logged_in' => true,
+        'role' => $_SESSION['role']
+    ]);
 } else {
-    echo json_encode(['logged_in' => false]);
+    // If not logged in, return a logged_in status of false
+    echo json_encode([
+        'logged_in' => false
+    ]);
 }
 ?>

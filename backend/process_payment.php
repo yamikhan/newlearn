@@ -22,22 +22,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    // Fetch the course details (price) from the database
-    $sql = "SELECT title, price FROM courses WHERE id = ?";
+    // Fetch the course price from the database
+    $sql = "SELECT price FROM courses WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('i', $course_id);
     $stmt->execute();
     $result = $stmt->get_result();
-
+    
     if ($result->num_rows === 0) {
         echo "Invalid course ID.";
         exit();
     }
-
+    
     $course = $result->fetch_assoc();
-    $course_title = $course['title'];
-    $amount = $course['price'];
-
+    $amount = $course['price']; // Set the course price as the payment amount
     $stmt->close();
 
     // Initialize variables for additional payment details
@@ -63,10 +61,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "Invalid credit card number.";
             exit();
         }
+
         if (empty($card_expiry) || !preg_match('/^(0[1-9]|1[0-2])\/(\d{2})$/', $card_expiry)) {
             echo "Invalid card expiry date. Use MM/YY format.";
             exit();
         }
+
         if (empty($card_cvc) || !preg_match('/^\d{3,4}$/', $card_cvc)) {
             echo "Invalid CVC code.";
             exit();
@@ -82,23 +82,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    // Simulate payment processing (no database storage)
-    echo "<h1>Payment Confirmation</h1>";
-    echo "<p>Thank you for your payment!</p>";
-    echo "<p>Course: <strong>$course_title</strong></p>";
-    echo "<p>Amount: <strong>\$$amount</strong></p>";
-    echo "<p>Payment Method: <strong>$payment_method</strong></p>";
+    // Insert payment details into the database
+    $sql = "INSERT INTO payments (user_id, course_id, payment_method, amount, paypal_email, card_number, card_expiry, card_cvc, skrill_email, payment_date)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+    
+    if ($stmt = $conn->prepare($sql)) {
+        $stmt->bind_param(
+            'iisssssss',
+            $user_id,
+            $course_id,
+            $payment_method,
+            $amount,
+            $paypal_email,
+            $card_number,
+            $card_expiry,
+            $card_cvc,
+            $skrill_email
+        );
 
-    // Display additional details for the chosen payment method
-    if ($payment_method === 'PayPal') {
-        echo "<p>PayPal Email: <strong>$paypal_email</strong></p>";
-    } elseif ($payment_method === 'Credit Card') {
-        echo "<p>Credit Card: <strong>**** **** **** " . substr($card_number, -4) . "</strong></p>";
-    } elseif ($payment_method === 'Skrill') {
-        echo "<p>Skrill Email: <strong>$skrill_email</strong></p>";
+        if ($stmt->execute()) {
+            echo "Payment successful!";
+        } else {
+            echo "Error processing payment: " . $stmt->error;
+        }
+        $stmt->close();
+    } else {
+        echo "Error preparing statement: " . $conn->error;
     }
 
-    echo "<a href='../dashboard/dashboard_etudiant.html'>Go to Dashboard</a>";
+    $conn->close();
 } else {
     echo "Invalid request method.";
 }
