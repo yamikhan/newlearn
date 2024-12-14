@@ -15,8 +15,7 @@
             <span class="hamburger" onclick="toggleMenu()">☰</span>
             <ul>
                 <li><a href="#home" onclick="showSection('home')"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="#courses" onclick="showSection('courses')"><i class="fas fa-book"></i> Courses</a></li>
-                <li><a href="#payment" onclick="showSection('payment')"><i class="fas fa-credit-card"></i> Payment</a></li>
+                <li><a href="/pages/showallcourses.html" onclick="showSection('courses')"><i class="fas fa-book"></i> Courses</a></li>
                 <li><a href="login/login.html" onclick="showSection('login')"><i class="fas fa-sign-in-alt"></i> Login</a></li>
                 <li><a href="register/register.html" onclick="showSection('signup')"><i class="fas fa-user-plus"></i> Signup</a></li>
                 <li><a href="#feedback" onclick="showSection('feedback')"><i class="fas fa-comment-dots"></i> Feedback</a></li>
@@ -30,42 +29,9 @@
         <section id="home" class="welcome">
             <h1>Welcome to ProLearn</h1>
             <p>Learn and practice your skills with us.</p>
-            <a href="#signup" class="get-started" onclick="showSection('signup')">Get Started</a>
+            <a href="/register/register.html" class="get-started" onclick="showSection('signup')">Get Started</a>
         </section>
 
-        <!-- Courses Section -->
-        <section id="courses" class="courses">
-            <h2>Our Courses</h2>
-            <div class="course-item">
-                <img src="https://via.placeholder.com/350x200" alt="Course 1">
-                <h3>Web Development</h3>
-                <p>Learn to build modern websites and web applications using HTML, CSS, JavaScript, and more.</p>
-                <a href="#" class="get-started">Enroll Now</a>
-            </div>
-            <div class="course-item">
-                <img src="https://via.placeholder.com/350x200" alt="Course 2">
-                <h3>Data Science</h3>
-                <p>Explore the world of data analysis, machine learning, and AI with Python and R.</p>
-                <a href="#" class="get-started">Enroll Now</a>
-            </div>
-            <div class="course-item">
-                <img src="https://via.placeholder.com/350x200" alt="Course 3">
-                <h3>Graphic Design</h3>
-                <p>Learn the fundamentals of design, typography, and tools like Adobe Photoshop and Illustrator.</p>
-                <a href="#" class="get-started">Enroll Now</a>
-            </div>
-        </section>
-
-        <!-- Payment Section -->
-        <section id="payment" class="payment">
-            <h2>Payment</h2>
-            <p>Select a payment method to proceed with your purchase.</p>
-            <div>
-                <button class="get-started">Pay with Credit Card</button>
-                <button class="get-started">Pay with PayPal</button>
-                <button class="get-started">Pay with Bank Transfer</button>
-            </div>
-        </section>
 
         <!-- Feedback Section -->
         <section id="feedback" class="feedback visible">
