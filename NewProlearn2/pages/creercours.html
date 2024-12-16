@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Créer un cours de programmation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 100%;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.8em;
+      margin-bottom: 20px;
+      color: #3498db;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input, textarea, button, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+
+    textarea {
+      resize: none;
+      height: 100px;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    input[type="file"] {
+      padding: 5px;
+    }
+
+    .test-section {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 2px solid #ddd;
+    }
+
+    .test-question {
+      margin-bottom: 15px;
+    }
+
+    .test-options input {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Créer un cours de programmation</h1>
+    <form action="../backend/save_cours.php" method="POST" enctype="multipart/form-data">
+      <label for="course-title">Titre du cours :</label>
+      <input type="text" id="course-title" name="title" placeholder="Entrez le titre du cours" required>
+
+      <label for="course-description">Description :</label>
+      <textarea id="course-description" name="description" placeholder="Entrez une description" required></textarea>
+
+      <label for="course-price">Prix (en €) :</label>
+      <input type="number" id="course-price" name="price" placeholder="Entrez le prix du cours" required>
+
+      <label for="course-video">Ajouter un fichier vidéo :</label>
+      <input type="file" id="course-video" name="video" accept="video/mp4,video/x-m4v,video/*" required>
+
+      <div class="test-section">
+        <h3>Ajouter un test au cours :</h3>
+        <div id="test-questions">
+          <!-- Dynamic test questions will be added here -->
+        </div>
+        <button type="button" id="add-test-button">Ajouter un test</button>
+      </div>
+
+      <button type="submit">Créer</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('add-test-button').addEventListener('click', function() {
+    const testSection = document.createElement('div');
+    testSection.classList.add('test-question');
+    
+    const questionLabel = document.createElement('label');
+    questionLabel.innerText = 'Question :';
+    const questionInput = document.createElement('input');
+    questionInput.type = 'text';
+    questionInput.name = 'test_question[]';
+    questionInput.placeholder = 'Entrez la question du test';
+    questionInput.required = true;
+
+    const optionsLabel = document.createElement('label');
+    optionsLabel.innerText = 'Options :';
+    const optionsDiv = document.createElement('div');
+    optionsDiv.classList.add('test-options');
+    
+    // Add 4 options
+    for (let i = 0; i < 4; i++) {
+      const optionInput = document.createElement('input');
+      optionInput.type = 'text';
+      optionInput.name = `test_options[${document.querySelectorAll('.test-question').length}][]`;
+      optionInput.placeholder = `Option ${i + 1}`;
+      optionInput.required = true;
+      optionsDiv.appendChild(optionInput);
+    }
+
+    const correctAnswerLabel = document.createElement('label');
+    correctAnswerLabel.innerText = 'Réponse correcte :';
+    const correctAnswerSelect = document.createElement('select');
+    correctAnswerSelect.name = `correct_answer[]`;
+    for (let i = 0; i < 4; i++) {
+      const option = document.createElement('option');
+      option.value = i;
+      option.innerText = `Option ${i + 1}`;
+      correctAnswerSelect.appendChild(option);
+    }
+
+    testSection.appendChild(questionLabel);
+    testSection.appendChild(questionInput);
+    testSection.appendChild(optionsLabel);
+    testSection.appendChild(optionsDiv);
+    testSection.appendChild(correctAnswerLabel);
+    testSection.appendChild(correctAnswerSelect);
+    
+    document.getElementById('test-questions').appendChild(testSection);
+  });
+
+  // Prevent form submission if any test question is incomplete
+  document.querySelector('form').addEventListener('submit', function(event) {
+    let isValid = true;
+
+    document.querySelectorAll('.test-question').forEach(function(testQuestion) {
+      const questionInput = testQuestion.querySelector('input[name="test_question[]"]');
+      const options = testQuestion.querySelectorAll('input[name^="test_options"]');
+      const correctAnswerSelect = testQuestion.querySelector('select[name="correct_answer[]"]');
+      
+      // Validate question, options, and correct answer
+      if (!questionInput.value.trim()) {
+        isValid = false;
+        alert('Veuillez remplir toutes les questions.');
+      }
+
+      if (options.length < 1 || Array.from(options).some(option => !option.value.trim())) {
+        isValid = false;
+        alert('Veuillez remplir toutes les options.');
+      }
+
+      if (!correctAnswerSelect.value) {
+        isValid = false;
+        alert('Veuillez sélectionner la bonne réponse.');
+      }
+    });
+
+    if (!isValid) {
+      event.preventDefault();
+    }
+  });
+
+  </script>
+</body>
+</html>

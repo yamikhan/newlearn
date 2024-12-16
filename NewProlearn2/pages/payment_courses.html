@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Options</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/payment_courses.css">
+</head>
+<body>
+  <div class="payment-container">
+    <h1>Choose a Payment Method</h1>
+    <div class="order-info" id="order-info">
+      <h2>Order Information</h2>
+      <p><strong>Course:</strong> Loading...</p>
+      <p><strong>Description:</strong> Loading...</p>
+      <p><strong>Price:</strong> Loading...</p>
+    </div>
+    <form id="payment-form" action="../backend/process_payment.php" method="POST">
+      <input type="hidden" name="course_id" id="course-id" value="">
+      <input type="hidden" name="payment_method" id="payment-method" value="">
+
+      <div class="payment-options">
+        <button type="button" class="paypal" onclick="showPaymentDetails('PayPal')">Pay with PayPal</button>
+        <button type="button" class="credit-card" onclick="showPaymentDetails('Credit Card')">Pay with Credit Card</button>
+        <button type="button" class="skrill" onclick="showPaymentDetails('Skrill')">Pay with Skrill</button>
+      </div>
+
+      <div id="payment-details" class="payment-details">
+        <h3 id="payment-title">Enter your details</h3>
+        <div id="payment-fields"></div>
+        <button type="submit">Pay Now</button>
+      </div>
+    </form>
+  </div>
+
+  <script src="../js/payment_courses.js"></script>
+</body>
+</html>
