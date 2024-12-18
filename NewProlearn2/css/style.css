@@ -11,7 +11,7 @@ body {
 }
 
 header {
-    background-color: #003366;
+    background-color: #FA4B37;
     padding: 15px 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: fixed;
@@ -50,7 +50,7 @@ nav a {
 
 nav a:hover {
     background-color: #ffcc00;
-    color: #003366;
+    color: #FA4B37;
 }
 
 .hamburger {
@@ -63,7 +63,7 @@ nav a:hover {
 .welcome {
     text-align: center;
     padding: 100px 20px;
-    background: linear-gradient(135deg, #0073e6, #005bb5);
+    background: linear-gradient(135deg, #FA4B37, #FA4B37);
     color: #fff;
     margin-top: 70px;
     height: 286px;
@@ -139,7 +139,7 @@ nav a:hover {
 footer {
     text-align: center;
     padding: 20px 0px;
-    background-color: #003366;
+    background-color: #FA4B37;
     color: #fff;
     font-size: 14px;
     width: 100%;
@@ -159,7 +159,7 @@ main {
         display: none;
         flex-direction: column;
         gap: 10px;
-        background-color: #003366;
+        background-color: #FA4B37;
         position: absolute;
         top: 60px;
         left: 0;
@@ -228,7 +228,7 @@ main {
 
 .btn-submit {
     padding: 10px 20px;
-    background-color: #003366;
+    background-color: #FA4B37;
     color: white;
     font-size: 16px;
     border: none;
@@ -240,4 +240,48 @@ main {
 .btn-submit:hover {
     background-color: #ffcc00;
     color: black;
+}
+/*POPULAR SUBJECTS*/
+.cbox {
+	position: relative;
+	width: 100%;
+	display: inline-flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+.cbox .det {
+	width: 250px;
+	height: 80px;
+	margin: 10px;
+	background: #fff;
+	cursor: pointer;
+}
+.cbox .det a{
+	justify-content: space-around;
+	width: 250px;
+	padding: 28px;
+	border-radius: 10px;
+	border: 1px solid #FA4B37;
+	font-size: 15px;
+	color: #272529;
+	font-family: cursive;
+	text-decoration: none;
+}
+.cbox .det a:hover {
+	background: linear-gradient(to right, #FA4B37, #DF2771);
+	color: white;
+}
+.cbox .det a:hover img{
+	filter: brightness(100);
+}
+.cbox img {
+	width: 20px;
+	margin-right: 20px;
+}
+.title {
+    margin-top: 0px; 
+   font-family: 'Open Sans', sans-serif;
+   font-size: 30px;
+   text-align: center;
+   color: #2E3D49;
 }
