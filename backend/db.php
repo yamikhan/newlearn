@@ -1,5 +1,5 @@
 <?php
-$host = '127.0.0.1'; 
+$host = 'localhost:3308'; 
 $dbname = 'newlearn'; 
 $username = 'root'; // Your MySQL username
 $password = ''; // Your MySQL password
